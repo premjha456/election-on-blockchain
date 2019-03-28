@@ -29,4 +29,21 @@ contract("Election", function(accounts){
         });
     });
 
+
+    it("allows voter to cast votes" , function(){
+        return Election.deployed().then(function(instance){
+        electionInstance = instance;
+        candidateId=1;
+            return electionInstance.vote(candidateId,{from: accounts[0]});
+        }).then(function(recipt){
+            return electionInstance.voters(accounts[0]);
+        }).then(function(voted){
+        assert(voted,'voter was added as record');
+        return electionInstance.candidates(candidateId);
+        }).then(function(candidate){
+            var voteCount =candidate[2];
+            assert.equal(voteCount,1,"increments the vote counts");
+        });
+    });
+
 });
