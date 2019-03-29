@@ -32,7 +32,11 @@ contract Election{
     }
 
     function vote (uint _candidateId) public {
-
+        
+        //  to check that they have not voted
+        require(!voters[msg.sender]);
+        // to check that the candidate id is valid
+        require(_candidateId >0 && _candidateId <= candidatesCount);
         // to set value true for voters address who casted vote
         voters[msg.sender] =true;
         //  to increment the vote count
